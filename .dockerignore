@@ -1,0 +1,13 @@
+venv/
+.git/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.vscode/
+output/
+*.db
+*.sqlite3
+TODO.md
+.github/workflows/ci.yml
