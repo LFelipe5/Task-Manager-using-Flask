@@ -11,6 +11,10 @@ docs/
 tasks/
 .worktrees/
 
+# Local-only dev tooling (não versionado)
+docker-compose.yml
+bandit-report.*
+
 # Distribution / packaging
 .Python
 build/
