@@ -204,7 +204,6 @@ jobs:
     permissions:
       # Necessário para todos os workflows
       security-events: write
-      contents: read
       # Somente necessário para repositórios privados
       actions: read
       contents: read
