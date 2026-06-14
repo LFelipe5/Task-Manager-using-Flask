@@ -117,29 +117,22 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       
-      - name: Build e inicialização da aplicação
+      - name: Create docker network and start application
         run: |
-          # Build da aplicação
+          docker network create zapnet || true
           docker build -t taskmanager:latest .
-          # Iniciar a aplicação em segundo plano
-          docker run -d -p 5000:5000 --name taskmanager taskmanager:latest
-          # Aguardar a aplicação iniciar
+          docker run -d --network zapnet --name taskmanager taskmanager:latest
           sleep 10
 
-      - name: Install DAST tool (OWASP ZAP)
+      - name: Run OWASP ZAP baseline scan (Docker)
         run: |
-          sudo apt-get update
-          sudo apt-get install -y zaproxy
+          docker run --rm --network zapnet -v ${{ github.workspace }}:/zap/wrk/:rw -t owasp/zap2docker-stable \
+            zap-baseline.py -t http://taskmanager:5000 -r /zap/wrk/zap_report.html || true
 
-      - name: Run DAST scan with OWASP ZAP
-        run: |
-          # Start ZAP in daemon mode
-          zap.sh -daemon -port 5000 &
-          # Wait for ZAP to start
-          sleep 30
-          # Run the scan against the target application (adjust URL as needed)
-          zap-cli --zap-url http://localhost:5000 quick-scan --self-contained --spider --ajax https://your-app-url.com || true
-          # Display the report in the console
-          zap-cli --zap-url http://localhost:5000 report -o zap_report.html
+      - name: Upload ZAP report
+        uses: actions/upload-artifact@v4
+        with:
+          name: zap-report
+          path: zap_report.html
 
     
