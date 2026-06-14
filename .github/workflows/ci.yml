@@ -121,7 +121,7 @@ jobs:
         run: |
           docker network create zapnet || true
           docker build -t taskmanager:latest .
-          docker run -d --network zapnet --name taskmanager taskmanager:latest -p 5000:5000
+          docker run -d --network zapnet --name taskmanager -p 5000:5000 taskmanager:latest
           sleep 10
 
       - name: Run OWASP ZAP baseline scan (Docker)
