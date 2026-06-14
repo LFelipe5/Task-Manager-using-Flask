@@ -2,17 +2,16 @@ name: TaskManager DevSecOps Pipeline
 
 on:
   push:
-    branches: 
-      - main
-      - stage
-      - dev
+    - main
+    - stage
+    - dev
   pull_request:
     branches: 
       - main
       - stage
 
 jobs: 
-  build:
+  testes:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
