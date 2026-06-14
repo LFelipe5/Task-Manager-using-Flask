@@ -1,5 +1,6 @@
+# from todo_project.models import Task, User
+from todo_project.models import Task
 from todo_project import db
-from todo_project.models import Task, User
 
 
 def _add_task(auth_client, content='My task'):

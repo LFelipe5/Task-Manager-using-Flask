@@ -17,14 +17,14 @@ if os.environ.get('TESTING') == '1':
 db = SQLAlchemy(app)
 
 login_manager = LoginManager(app)
-login_manager.login_view = 'login' 
+login_manager.login_view = 'login'
 login_manager.login_message_category = 'danger'
 
 bcrypt = Bcrypt(app)
 
 # Always put Routes at end
-from todo_project import routes
-from todo_project import models
+from todo_project import routes  # noqa
+from todo_project import models  # noqa
 
 with app.app_context():
     db.create_all()

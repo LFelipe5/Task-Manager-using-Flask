@@ -1,5 +1,9 @@
+# from todo_project.models import User, Task
+from todo_project import app as flask_app, db, bcrypt
+from todo_project.models import User
 import os
 import tempfile
+import pytest
 
 os.environ['TESTING'] = '1'
 os.environ['SECRET_KEY'] = 'test-secret-key'
@@ -7,11 +11,6 @@ os.environ['SECRET_KEY'] = 'test-secret-key'
 _db_fd, _db_path = tempfile.mkstemp(suffix='.db')
 os.close(_db_fd)
 os.environ['DATABASE_URI'] = f'sqlite:///{_db_path}'
-
-import pytest
-
-from todo_project import app as flask_app, db, bcrypt
-from todo_project.models import User, Task
 
 
 @pytest.fixture

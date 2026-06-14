@@ -1,5 +1,6 @@
+# from todo_project.models import User, Task, load_user
 from todo_project import db
-from todo_project.models import User, Task, load_user
+from todo_project.models import Task, load_user
 
 
 def test_user_repr(make_user):

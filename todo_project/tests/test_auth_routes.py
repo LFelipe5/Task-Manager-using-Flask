@@ -70,6 +70,11 @@ def test_authenticated_login_redirects(auth_client):
 
 
 def test_protected_routes_redirect_when_anonymous(client):
-    for route in ['/all_tasks', '/add_task', '/account', '/account/change_password']:
+    for route in [
+            '/all_tasks',
+            '/add_task',
+            '/account',
+            '/account/change_password'
+            ]:
         resp = client.get(route)
         assert resp.status_code == 302
