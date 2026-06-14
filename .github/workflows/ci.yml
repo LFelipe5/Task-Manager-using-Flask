@@ -2,9 +2,14 @@ name: TaskManager DevSecOps Pipeline
 
 on:
   push:
-    branches: ['**']
+    branches: 
+      - main
+      - stage
+      - dev
   pull_request:
-    branches: ['**']
+    branches: 
+      - main
+      - stage
 
 jobs: 
   build:
@@ -42,6 +47,7 @@ jobs:
         # Only required for workflows in private repositories
         actions: read
         contents: read
+
     steps:
       - name: Verificando o repositório
         uses: actions/checkout@v4
@@ -65,7 +71,7 @@ jobs:
           # Also produce machine-readable JSON and save while showing it
           bandit -r todo_project -f json | tee bandit.json || true
 
-      - name: Uploado do relatório do Bandit
+      - name: Upload do relatório do Bandit
         uses: actions/upload-artifact@v4
         with:
           name: bandit-report
