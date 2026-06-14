@@ -35,6 +35,7 @@ jobs:
         run: pytest --cov-report=xml
   sast:
     runs-on: ubuntu-latest
+    needs: test
     permissions:
         # Required for all workflows
         security-events: write
@@ -72,6 +73,10 @@ jobs:
           path: bandit.json
   dependency-check:
     runs-on: ubuntu-latest
+    needs: 
+      - test
+      - sast
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -101,6 +106,11 @@ jobs:
           name: pip-audit-report
           path: pip-audit.json
   dast:
+    needs:
+      - test
+      - sast
+      - dependency-check
+
     runs-on: ubuntu-latest
     steps:
       - name: Verificando o repositório
