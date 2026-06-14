@@ -1,4 +1,4 @@
-name: CI
+name: TaskManager DevSecOps Pipeline
 
 on:
   push:
@@ -34,7 +34,7 @@ jobs:
       #   env:
       #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       #     SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-  analyze:
+  sast:
     runs-on: ubuntu-latest
     permissions:
         # Required for all workflows
@@ -43,5 +43,27 @@ jobs:
         actions: read
         contents: read
     steps:
-        - name: Perform Bandit Analysis
-          uses: PyCQA/bandit-action@v1
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+
+      - name: Install Bandit
+        run: |
+          python -m pip install --upgrade pip
+          pip install bandit
+
+      - name: Run Bandit scan
+        # Scans the package directory; change `todo_project` if needed
+        run: |
+          bandit -r todo_project -f json -o bandit.json || true
+
+      - name: Upload Bandit report
+        uses: actions/upload-artifact@v4
+        with:
+          name: bandit-report
+          path: bandit.json
