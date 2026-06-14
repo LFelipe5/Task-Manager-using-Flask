@@ -35,34 +35,14 @@ jobs:
       #   env:
       #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       #     SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-
-bandit:
-    name: Static security scan (Bandit)
+  analyze:
     runs-on: ubuntu-latest
+    permissions:
+        # Required for all workflows
+        security-events: write
+        # Only required for workflows in private repositories
+        actions: read
+        contents: read
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-          cache: pip
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-
-      - name: Install Bandit
-        run: pip install bandit
-
-      - name: Run Bandit
-        # scan the package directory; adjust path if needed
-        run: bandit -r todo_project -f json -o bandit.json
-
-      - name: Upload Bandit report
-        uses: actions/upload-artifact@v4
-        with:
-          name: bandit-report
-          path: bandit.json
+        - name: Perform Bandit Analysis
+          uses: PyCQA/bandit-action@v1
