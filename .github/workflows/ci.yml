@@ -6,8 +6,7 @@ on:
   pull_request:
     branches: ['**']
 
-jobs:
-  name: Build e teste
+jobs: 
   build:
     runs-on: ubuntu-latest
     steps:
