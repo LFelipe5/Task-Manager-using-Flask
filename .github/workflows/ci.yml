@@ -43,26 +43,29 @@ jobs:
         actions: read
         contents: read
     steps:
-      - name: Checkout repository
+      - name: Verificando o repositório
         uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: Definindo a versão do Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
           cache: pip
 
-      - name: Install Bandit
+      - name: Instalando Bandit
         run: |
           python -m pip install --upgrade pip
           pip install bandit
 
-      - name: Run Bandit scan
+      - name: Iniciando Scan do Bandit
         # Scans the package directory; change `todo_project` if needed
         run: |
-          bandit -r todo_project -f json -o bandit.json || true
+          # Show human-readable report in the console
+          bandit -r todo_project -f txt || true
+          # Also produce machine-readable JSON and save while showing it
+          bandit -r todo_project -f json | tee bandit.json || true
 
-      - name: Upload Bandit report
+      - name: Uploado do relatório do Bandit
         uses: actions/upload-artifact@v4
         with:
           name: bandit-report
