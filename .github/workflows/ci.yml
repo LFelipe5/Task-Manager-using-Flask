@@ -311,16 +311,16 @@ jobs:
 
       - name: utilizando o docker compose para subir os serviços
         run: |
-          docker-compose -f docker-compose.yml up -d
+          docker compose -f docker-compose.yml up -d
           sleep 20
       - name: Validando aplicação
         run: |
-          curl -I http://localhost:5000
+          curl -fI http://localhost:5000
 
       - name: Validando Prometheus
         run: |
-          curl -I http://localhost:9090
+          curl -fI http://localhost:9090
 
       - name: Validando Grafana
         run: |
-          curl -I http://localhost:3000  
+          curl -fI http://localhost:3000  
