@@ -309,6 +309,17 @@ jobs:
       - name: Verificando o repositório
         uses: actions/checkout@v4
 
+      - name: Ajustando permissoes das pastas de dados
+        run: |
+          # Garante que a pasta local data exista antes do compose rodar
+          mkdir -p ./prometheus/data
+          
+          # Aplica o chown para o UID do Prometheus (nobody)
+          sudo chown -R 65534:65534 ./prometheus/data
+
+          # Aplica o chown para o UID do Grafana (grafana)
+          sudo chown -R 472:472 ./grafana
+
       - name: utilizando o docker compose para subir os serviços
         run: |
           docker compose -f docker-compose.yml up -d

@@ -20,7 +20,6 @@ services:
   grafana:
     image: grafana/grafana
     container_name: task_manager_grafana
-    user: "472:472"
     restart: always
     environment:
       GF_INSTALL_PLUGINS: 'grafana-clock-panel,grafana-simple-json-datasource'
