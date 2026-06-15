@@ -330,7 +330,7 @@ jobs:
 
       - name: Validando Prometheus
         run: |
-          curl -fI http://localhost:9090
+          curl -f -sS http://localhost:9090 > /dev/null
 
       - name: Validando Grafana
         run: |
